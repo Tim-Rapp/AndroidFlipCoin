@@ -3,5 +3,6 @@
     <string name="start_flipping">Start flipping!</string>
     <string name="time_to_flip">time to flip</string>
     <string name="time_per_flip">pause after each flip (in milliseconds)</string>
-    <string name="how_many_flips_until_a_nickel_lands_on_its_side">How many flips until a nickel lands on its side?</string>
+    <string name="how_many_flips_until_a_nickel_lands_on_its_side">How many flips until a nickel lands on its edge?</string>
+    <string name="result">Nickel landed on its edge after %1$s flips</string>
 </resources>
