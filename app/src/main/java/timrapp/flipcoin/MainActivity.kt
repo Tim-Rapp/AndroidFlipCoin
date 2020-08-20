@@ -43,7 +43,11 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
                 if (delayBetweenFlips > 100) {
                     val expectedSeconds = (delayBetweenFlips / 1000 * expectedFlips).toInt()
-                    Toast.makeText(this, "It would take about $expectedSeconds seconds to finish with such a long pause, please pick a smaller number", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        "It would take about $expectedSeconds seconds to finish with such a long pause, please pick a smaller number",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return@setOnClickListener
                 }
 
@@ -69,7 +73,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                     }
                     break
                 } else {
-                    if (!reallyShortDelay(delayBetweenFlips) && count > 0 && count % 1000 == 0) {
+                    if (isLongDelay(delayBetweenFlips) && count > 0 && count % 1000 == 0) {
                         withContext(Dispatchers.Main) {
                             displayProgress(Pair(flipResult, count))
                         }
@@ -80,13 +84,13 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         }
     }
 
-    private fun reallyShortDelay(delayBetweenFlips: Float): Boolean {
-        return delayBetweenFlips < 1
+    private fun isLongDelay(delayBetweenFlips: Float): Boolean {
+        return delayBetweenFlips > 1
     }
 
-    private suspend fun displayFlipResult(resultPair: Pair<FlipResult, Int>) {
-        for (toast in toasts){
-            // if toasts are queued up to display they can appear after we have already displayed the result
+    private fun displayFlipResult(resultPair: Pair<FlipResult, Int>) {
+        // if toasts are queued up to display they can appear after we have already displayed the result
+        toasts.map { toast ->
             toast.cancel()
         }
 
@@ -95,7 +99,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         resultTextView.text = String.format(resources.getString(R.string.result), numFlips)
     }
 
-    private suspend fun displayProgress(resultPair: Pair<FlipResult, Int>) {
+    private fun displayProgress(resultPair: Pair<FlipResult, Int>) {
         val numFlips = resultPair.second
         val toast = Toast.makeText(this, "Completed $numFlips flips", Toast.LENGTH_SHORT)
         toasts.add(toast)
